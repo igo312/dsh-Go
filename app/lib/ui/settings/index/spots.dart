@@ -842,6 +842,13 @@ abstract final class Spots {
     keywords: (l) => l.searchKwAccent,
     ohosKeywords: (l) => l.harmonyKwAccent,
   );
+  static final themePacks = SettingSpot(
+    'theme-packs',
+    page: SettingsPageId.appearance,
+    title: (l) => l.themePacksTitle,
+    keywords: (l) => l.searchKwThemePacks,
+    freq: Freq.medium,
+  );
   static final tileStyle = SettingSpot(
     'tile-style',
     page: SettingsPageId.appearance,
@@ -1248,6 +1255,7 @@ final _rows = <SettingSpot>[
   Spots.webSearchKey,
   Spots.darkMode,
   Spots.accent,
+  Spots.themePacks,
   Spots.tileStyle,
   Spots.appIcon,
   Spots.iconShortcut,

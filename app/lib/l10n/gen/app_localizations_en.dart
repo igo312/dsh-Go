@@ -15519,6 +15519,110 @@ class L10nEn extends L10n {
   String get pluginsLoadRemoteLogs => 'Check the engine logs on this host.';
 
   @override
+  String get themePacksTitle => 'Theme packs';
+
+  @override
+  String get themePacksFooter =>
+      'Import a .dshTheme.zip; this version applies its colors and light/dark, while decorations and dates are not applied yet.';
+
+  @override
+  String get themePackImport => 'Import theme';
+
+  @override
+  String get themePackImportHint => 'Choose a .dshTheme.zip theme pack';
+
+  @override
+  String get themePackActive => 'In use';
+
+  @override
+  String get themePackUnavailable => 'Not installed';
+
+  @override
+  String get themePackMissing => 'Theme pack is no longer on this phone';
+
+  @override
+  String get themePackListFailed => 'Couldn\'t read theme packs. Tap to retry';
+
+  @override
+  String themePackImported(String name) {
+    return 'Imported “$name”';
+  }
+
+  @override
+  String themePackReplaced(String name) {
+    return 'Replaced “$name”';
+  }
+
+  @override
+  String themePackRemoved(String name) {
+    return 'Removed “$name”';
+  }
+
+  @override
+  String get themePackRemoveTitle => 'Delete theme pack?';
+
+  @override
+  String themePackRemoveBody(String name) {
+    return '“$name” will be removed from the phone. If it is in use, the previous colors return.';
+  }
+
+  @override
+  String themePackRemoveFailed(String name) {
+    return 'Couldn\'t remove “$name”';
+  }
+
+  @override
+  String get themePackReplaceTitle => 'Replace theme pack?';
+
+  @override
+  String themePackReplaceBody(String name) {
+    return '“$name” is already imported. Replacing it uses the new version.';
+  }
+
+  @override
+  String get themePackNoticesTitle => 'Some effects are not applied yet';
+
+  @override
+  String themePackNoticesBody(String items) {
+    return 'This pack also asks for: $items. This version applies colors and light/dark only; importing keeps these settings but doesn\'t show them yet.';
+  }
+
+  @override
+  String get themePackNoticesConfirm => 'Import anyway';
+
+  @override
+  String get themePackNoticeSnow => 'snow';
+
+  @override
+  String get themePackNoticeWhaleHat => 'whale hat';
+
+  @override
+  String get themePackNoticeHighlight => 'highlight color';
+
+  @override
+  String get themePackNoticeDates => 'date range';
+
+  @override
+  String get themePackImportNotZip => 'That isn\'t a zip file';
+
+  @override
+  String get themePackImportNoTheme => 'There\'s no theme.json in the zip';
+
+  @override
+  String themePackImportBadTheme(String detail) {
+    return 'theme.json has a problem: $detail';
+  }
+
+  @override
+  String get themePackImportTooLarge => 'This theme pack is too big';
+
+  @override
+  String get themePackImportStorage => 'Couldn\'t save it on the phone. Try again';
+
+  @override
+  String get themePackImportUnavailable => 'Files can\'t be chosen here right now';
+
+  @override
   String get plugslotsSurfaceComposerTools => 'Plus panel tools';
 
   @override
@@ -18324,6 +18428,9 @@ class L10nEn extends L10n {
 
   @override
   String get searchKwQuickPanel => 'swipe,left swipe,shortcuts,gesture,quick panel,quick access';
+
+  @override
+  String get searchKwThemePacks => 'theme pack,import theme,skin,theme zip,palette pack';
 
   @override
   String get selfUpdateTransport => 'Installation route';

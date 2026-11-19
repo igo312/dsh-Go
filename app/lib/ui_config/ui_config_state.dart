@@ -348,15 +348,22 @@ class UiValue<T> {
   int get hashCode => Object.hash(value, entry);
 }
 
-/// Light / dark: ui.json's `theme.mode` over 设置 › 外观.
+/// Light / dark: ui.json's `theme.mode` over the active theme pack's mode,
+/// over 设置 › 外观.
 final uiThemeModeProvider = Provider<UiValue<ThemeMode>>((ref) {
   final mode = ref.watch(uiOverridesProvider.select((o) => o.config.themeMode));
-  if (mode == null) return UiValue(ref.watch(settingsProvider.select((s) => s.themeMode)));
-  return UiValue(switch (mode) {
-    UiThemeMode.system => ThemeMode.system,
-    UiThemeMode.light => ThemeMode.light,
-    UiThemeMode.dark => ThemeMode.dark,
-  }, ref.watch(uiSettingEntryProvider(UiSettingKey.themeMode)));
+  if (mode != null) {
+    return UiValue(switch (mode) {
+      UiThemeMode.system => ThemeMode.system,
+      UiThemeMode.light => ThemeMode.light,
+      UiThemeMode.dark => ThemeMode.dark,
+    }, ref.watch(uiSettingEntryProvider(UiSettingKey.themeMode)));
+  }
+  if (ref.watch(activeThemePackProvider.select((pack) => pack != null))) {
+    final packMode = ref.watch(appearanceProvider.select((s) => s.themePackMode));
+    if (packMode != null) return UiValue(packMode);
+  }
+  return UiValue(ref.watch(settingsProvider.select((s) => s.themeMode)));
 });
 
 /// The palette: ui.json's `theme.accentPreset` / `theme.accent` over 外观's.

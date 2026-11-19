@@ -287,23 +287,28 @@ class AppAccent {
   /// 角色;浅色、深色主色各过一次 [guard],离原色最近地调到达标。
   ///
   /// 中性色转到同一色相,彩度按强调彩度折算(近灰的颜色得到近灰的页面)。
-  factory AppAccent.derive(Color pick, {String id = customId, String? label}) {
-    final key = (pick.toARGB32(), id, label);
+  ///
+  /// [neutralTint] 给了就只借它的色相和彩度给中性色(明度仍随雾蓝那套);
+  /// 强调色阶仍由 [pick] 推。主题包用这个把页面染成包的色调。
+  factory AppAccent.derive(Color pick, {String id = customId, String? label, Color? neutralTint}) {
+    final key = (pick.toARGB32(), id, label, neutralTint?.toARGB32());
     final hit = _derived[key];
     if (hit != null) return hit;
     if (_derived.length > 64) _derived.clear();
-    return _derived[key] = AppAccent._derive(pick, id: id, label: label);
+    return _derived[key] = AppAccent._derive(pick, id: id, label: label, neutralTint: neutralTint);
   }
 
-  static final _derived = <(int, String, String?), AppAccent>{};
+  static final _derived = <(int, String, String?, int?), AppAccent>{};
 
-  factory AppAccent._derive(Color pick, {required String id, required String? label}) {
+  factory AppAccent._derive(Color pick, {required String id, required String? label, Color? neutralTint}) {
     final o = Oklch.fromColor(pick);
     final c = math.min(o.c, maxChroma);
     final h = o.h;
     final k = math.min(1.0, c / 0.1255);
-    final tintChroma = 0.8 * k;
-    final neutrals = NeutralTones.of(tintHue: h, tintChroma: tintChroma);
+    final tint = neutralTint == null ? null : Oklch.fromColor(neutralTint);
+    final tintHue = tint?.h ?? h;
+    final tintChroma = tint == null ? 0.8 * k : 0.8 * math.min(1.0, math.min(tint.c, maxChroma) / 0.1255);
+    final neutrals = NeutralTones.of(tintHue: tintHue, tintChroma: tintChroma);
     Color tone(double l, double ratio) => Oklch(l, c * ratio, h).toColor();
 
     final onSeedDark = tone(0.231, 0.39);
@@ -338,7 +343,7 @@ class AppAccent {
       onContainerDark: tone(0.909, 0.24),
       bubbleDark: tone(0.314, 0.29),
       glowDark: tone(0.52, 0.72),
-      tintHue: h,
+      tintHue: tintHue,
       tintChroma: tintChroma,
       haze: Oklch(0.86, 0.045 * k, h + 33).toColor(),
       hazeDark: Oklch(0.42, 0.05 * k, h + 33).toColor(),

@@ -9,6 +9,7 @@ Adjust light and dark, colors, icons, the launch screen, the wallpaper and chat 
 
 - **Light and dark**: **Light**, **Dark** or **System** (default).
 - **Colors**: Mist, Teal, Dusk, Aqua, Amber, Slate, or **Custom** to drag the hue bar or pick a suggested color.
+- **Theme packs**: tap **Import theme** and choose a `.dshTheme.zip`; its colors and light/dark apply, and picking a color again leaves the pack. This version applies colors and light/dark only; snow, the whale hat and dates are not applied yet.
 - **Feature icons**: the style of tiles in All features and elsewhere: Duotone, Geometric or Glass.
 - **App icon**: Mist blue, Nightfall, Frost white or Ink. When it's done you'll see **Icon selected. Return to your home screen to see the change.** The icon can't change under a custom theme or in an app twin. Below it, **Picture shortcut** puts a separate shortcut to DSH Go on the home screen with your own picture: choose one, drag or pinch to fit, name it and tap **Add to home screen**, then confirm in the system dialog.
 - **Launch screen**: **Default** or **Custom**. A custom one can be a picture or an animation (up to 8 MB) or a video (up to 30 MB) of any length; it plays through once on a cold start, and a tap skips it. Pick its **Fit** (**Reposition** drags or pinches to frame it when set to **Fill**) and **Background**, and tap **Preview** to watch it once.

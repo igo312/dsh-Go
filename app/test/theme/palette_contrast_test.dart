@@ -23,6 +23,8 @@ final _palettes = <AppAccent>[
     Color(0xFF3A2A00),
   ])
     AppAccent.derive(c, id: AppAccent.wallpaperId),
+  // A theme pack: berry accent with a pine neutralTint.
+  AppAccent.derive(const Color(0xFFB4232C), id: 'theme-christmas', neutralTint: const Color(0xFF14503C)),
 ];
 
 void main() {
@@ -129,6 +131,31 @@ void main() {
       ]) {
         expect(Oklch.fromColor(a).l, closeTo(Oklch.fromColor(b).l, 0.006), reason: '${accent.id}: $a vs $b');
       }
+    }
+  });
+
+  test('a theme pack neutralTint moves the neutral hue, keeps its lightness and leaves the accent', () {
+    const accent = Color(0xFFB4232C);
+    const tint = Color(0xFF14503C);
+    final plain = AppAccent.derive(accent, id: 'plain');
+    final themed = AppAccent.derive(accent, id: 'theme-christmas', neutralTint: tint);
+
+    // The neutral hue comes from neutralTint instead of the accent.
+    expect(themed.tintHue, closeTo(Oklch.fromColor(tint).h, 0.5));
+    expect((themed.tintHue - plain.tintHue).abs(), greaterThan(30));
+    expect(themed.tintChroma, isNot(plain.tintChroma));
+    expect(Oklch.fromColor(NeutralTones.forAccent(themed).mist).h, isNot(closeTo(plain.tintHue, 5)));
+
+    // The accent tiers still follow the accent seed's hue, and the neutrals'
+    // lightness steps do not move.
+    expect(Oklch.fromColor(themed.seed).h, closeTo(Oklch.fromColor(plain.seed).h, 4));
+    for (final (a, b) in [
+      (NeutralTones.forAccent(themed).mistTop, NeutralTones.forAccent(plain).mistTop),
+      (NeutralTones.forAccent(themed).ink, NeutralTones.forAccent(plain).ink),
+      (NeutralTones.forAccent(themed).night, NeutralTones.forAccent(plain).night),
+      (NeutralTones.forAccent(themed).codeWell, NeutralTones.forAccent(plain).codeWell),
+    ]) {
+      expect(Oklch.fromColor(a).l, closeTo(Oklch.fromColor(b).l, 0.006));
     }
   });
 

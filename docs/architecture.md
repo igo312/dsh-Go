@@ -155,6 +155,7 @@ HomeShell = [ChatScreen] + [SessionsDrawer 左] + [QuickPanel 右] + [SystemEntr
 |---|---|---|
 | `l10n/` | 71 组 `parts/*_{zh,en}.arb` → 合并 ARB → 生成 `gen/`（生成物入库，CI 校验不手改） | `app/tool/l10n_merge.py`、`l10n.dart` `appL10n` |
 | `ui_config/` | ui.json 声明式界面：读取/校验/缓存/恢复默认（本机 `root/.dsh/dsh-go/ui.json`，远程 `workspaceFiles/`） | `ui_config_state.dart` `uiOverridesProvider`、`ui_config_source.dart` |
+| `theme_packs/` | 主题包（`.dshTheme.zip`）模型与有界导入：schema 1 解析/校验、限额、只落盘 `theme.json` + 预览 PNG；首版只应用 accent/neutralTint/mode，其余字段解析并提示 | 目录内模型与 ZIP 导入；安装列表 provider 在 `state/theme_packs_state.dart`，主题选择仍由 `state/appearance_state.dart` 持有 |
 | `plugins/native/` | 原生插件协议客户端（contributions/view/invoke/stream/assets） | `native_state.dart`、`native_surface.dart` |
 | `plugins/seams/` | 原生座位：4 个 adapter（cordis/dsh_ui_panel/pet/schema_config）+ 座位规划 | `seat_planner.dart`、`slot_catalog.dart` |
 | `phone/` | 手机操控 Dart 端（通道/审批/自检/技能录放） | `phone_channel.dart`、`phone_approval.dart` |
@@ -176,6 +177,7 @@ HomeShell = [ChatScreen] + [SessionsDrawer 左] + [QuickPanel 右] + [SystemEntr
 - 硬规则：`ui/` 可以 import 任何目录；**`ui/` 以外不能 import `ui/`**（入口 `main.dart`/`app.dart` 除外）。
   守卫：`app/test/arch/import_direction_test.dart`（当前允许 56 条历史边，**只减不增**）；
   用 `cd app && dart run tool/import_graph.dart --edges` 看现状。**ui 内部互引不受守卫**（已有 theme↔common 循环）。
+- `theme_packs/` 只做纯模型、有界 ZIP 存储与导入，**不 import `ui/`**；主题选择与生效应答交给 `state/appearance_state.dart` 和 `ui/theme/`。
 - 语言/主题不是 InheritedWidget：`appL10n` 是静态跟随，语言切换靠 `app.dart` 手动重建全树；
   widget 里优先用 `context.l10n`，不要在 `initState`/const 里缓存 `appL10n.xxx`。
 - 不手改生成物：`l10n/gen/`、`app/assets/skills/*`、`sdk/plugin-kit/types/`、`lib/bridge/`、

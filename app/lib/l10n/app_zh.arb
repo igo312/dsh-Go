@@ -8586,6 +8586,91 @@
   "pluginsLoadUnreported": "状态未报告",
   "pluginsLoadNoRuntimeDetail": "主机未返回运行时错误详情，请查看引擎日志。",
   "pluginsLoadRemoteLogs": "请在这台主机上查看引擎日志。",
+  "themePacksTitle": "主题包",
+  "themePacksFooter": "导入 .dshTheme.zip；当前版本应用配色与明暗，装饰和日期暂不生效。",
+  "themePackImport": "导入主题",
+  "themePackImportHint": "选择一个 .dshTheme.zip 主题包",
+  "themePackActive": "使用中",
+  "themePackUnavailable": "未安装",
+  "themePackMissing": "主题包已不在手机上",
+  "themePackListFailed": "读取主题包失败，点此重试",
+  "themePackImported": "已导入「{name}」",
+  "@themePackImported": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "themePackReplaced": "已替换「{name}」",
+  "@themePackReplaced": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "themePackRemoved": "已删除「{name}」",
+  "@themePackRemoved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "themePackRemoveTitle": "删除主题包？",
+  "themePackRemoveBody": "「{name}」会从手机删除；正在使用时回到原来的配色。",
+  "@themePackRemoveBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "themePackRemoveFailed": "没能删除「{name}」",
+  "@themePackRemoveFailed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "themePackReplaceTitle": "替换主题包？",
+  "themePackReplaceBody": "已经导入过「{name}」，替换后使用新版本。",
+  "@themePackReplaceBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "themePackNoticesTitle": "部分效果暂未生效",
+  "themePackNoticesBody": "这个主题包还要求：{items}。当前版本只应用配色和明暗；继续导入会保留这些设置但暂时不显示。",
+  "@themePackNoticesBody": {
+    "placeholders": {
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "themePackNoticesConfirm": "仍然导入",
+  "themePackNoticeSnow": "轻雪",
+  "themePackNoticeWhaleHat": "小鲸鱼帽子",
+  "themePackNoticeHighlight": "点缀色",
+  "themePackNoticeDates": "日期范围",
+  "themePackImportNotZip": "这不是 zip 文件",
+  "themePackImportNoTheme": "zip 里没有 theme.json",
+  "themePackImportBadTheme": "theme.json 有问题：{detail}",
+  "@themePackImportBadTheme": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "themePackImportTooLarge": "这个主题包太大",
+  "themePackImportStorage": "没能保存到手机上，再试一次",
+  "themePackImportUnavailable": "这里暂时不能选择文件",
   "plugslotsSurfaceComposerTools": "加号面板",
   "plugslotsSurfaceSessionActions": "对话操作",
   "plugslotsSurfaceTurnNote": "回合尾注",
@@ -10354,6 +10439,7 @@
   "searchKwPluginsMarket": "插件市场,安装插件,市场,获取插件",
   "searchKwUsageStats": "统计,使用统计,匿名,隐私,数据,改进,遥测,分析",
   "searchKwQuickPanel": "左滑,快捷入口,手势,滑动,目录,自定义目录,快捷,常用入口",
+  "searchKwThemePacks": "主题包,导入主题,皮肤,主题 zip,配色包",
   "selfUpdateTransport": "安装路线",
   "selfUpdateSystem": "正常安装（默认）",
   "selfUpdateShizuku": "Shizuku",

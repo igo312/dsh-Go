@@ -25,6 +25,7 @@ import '../settings_widgets.dart';
 import 'app_icon_picker.dart';
 import 'icon_shortcut_sheet.dart';
 import 'launch_screen_section.dart';
+import 'theme_pack_section.dart';
 import 'tile_style_picker.dart';
 import 'wallpaper_section.dart';
 
@@ -39,6 +40,10 @@ class AppearanceEntryTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final accent = ref.watch(accentProvider);
+    // A pack's name follows the UI language; the accent's cached label was
+    // made when the pack was applied.
+    final pack = ref.watch(activeThemePackProvider)?.pack;
+    final name = pack?.name.forLocale(Localizations.localeOf(context).languageCode) ?? accent.label;
     final seed = accent.seedFor(Theme.of(context).brightness);
     final mode = switch (ref.watch(uiThemeModeProvider.select((s) => s.value))) {
       ThemeMode.light => l10n.commonLight,
@@ -54,7 +59,7 @@ class AppearanceEntryTile extends ConsumerWidget {
         children: [
           AccentDot(color: seed, size: 10),
           const SizedBox(width: 6),
-          Text('${accent.label} · $mode'),
+          Text('$name · $mode'),
         ],
       ),
       onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const AppearancePage())),
@@ -91,6 +96,12 @@ class AppearancePage extends ConsumerWidget {
             ExpandReveal(open: appearance.source == AccentSource.custom, child: const CustomAccentPanel()),
             if (wallpaper != null) _WallpaperRow(wallpaper: wallpaper, on: appearance.source == AccentSource.wallpaper),
           ],
+        ),
+        SettingsSection(
+          title: l10n.themePacksTitle,
+          footer: Text(l10n.themePacksFooter),
+          spot: Spots.themePacks,
+          children: [const ThemePackSection()],
         ),
         SettingsSection(
           title: l10n.pluginsFeatureIcons,
@@ -152,6 +163,7 @@ class ThemeModePicker extends ConsumerWidget {
       (ThemeMode.system, l10n.commonFollowSystem),
     ];
     final mode = ref.watch(uiThemeModeProvider);
+    final packActive = ref.watch(activeThemePackProvider.select((pack) => pack != null));
     final (light, dark) = _themesFor(ref.watch(accentProvider));
     // The ring sits outside each preview, in [_ModeTile.room]: the padding
     // and gap leave room for it, so previews land 16 from the card and 12
@@ -185,7 +197,12 @@ class ThemeModePicker extends ConsumerWidget {
                     light: m == ThemeMode.dark ? null : light,
                     dark: m == ThemeMode.light ? null : dark,
                     onTap: () => unawaited(
-                      ThemeRevealHost.run(context, () => ref.read(settingsProvider.notifier).setThemeMode(m)),
+                      ThemeRevealHost.run(
+                        context,
+                        () => packActive
+                            ? ref.read(appearanceProvider.notifier).setThemePackMode(m)
+                            : ref.read(settingsProvider.notifier).setThemeMode(m),
+                      ),
                     ),
                   ),
                 ),

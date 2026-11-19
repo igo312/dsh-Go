@@ -836,5 +836,90 @@
         "type": "int"
       }
     }
+  },
+  "themePacksTitle": "主题包",
+  "themePacksFooter": "导入 .dshTheme.zip；当前版本应用配色与明暗，装饰和日期暂不生效。",
+  "themePackImport": "导入主题",
+  "themePackImportHint": "选择一个 .dshTheme.zip 主题包",
+  "themePackActive": "使用中",
+  "themePackUnavailable": "未安装",
+  "themePackMissing": "主题包已不在手机上",
+  "themePackListFailed": "读取主题包失败，点此重试",
+  "themePackImported": "已导入「{name}」",
+  "themePackReplaced": "已替换「{name}」",
+  "themePackRemoved": "已删除「{name}」",
+  "themePackRemoveTitle": "删除主题包？",
+  "themePackRemoveBody": "「{name}」会从手机删除；正在使用时回到原来的配色。",
+  "themePackRemoveFailed": "没能删除「{name}」",
+  "themePackReplaceTitle": "替换主题包？",
+  "themePackReplaceBody": "已经导入过「{name}」，替换后使用新版本。",
+  "themePackNoticesTitle": "部分效果暂未生效",
+  "themePackNoticesBody": "这个主题包还要求：{items}。当前版本只应用配色和明暗；继续导入会保留这些设置但暂时不显示。",
+  "themePackNoticesConfirm": "仍然导入",
+  "themePackNoticeSnow": "轻雪",
+  "themePackNoticeWhaleHat": "小鲸鱼帽子",
+  "themePackNoticeHighlight": "点缀色",
+  "themePackNoticeDates": "日期范围",
+  "themePackImportNotZip": "这不是 zip 文件",
+  "themePackImportNoTheme": "zip 里没有 theme.json",
+  "themePackImportBadTheme": "theme.json 有问题：{detail}",
+  "themePackImportTooLarge": "这个主题包太大",
+  "themePackImportStorage": "没能保存到手机上，再试一次",
+  "themePackImportUnavailable": "这里暂时不能选择文件",
+  "@themePackImported": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackReplaced": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackRemoved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackRemoveBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackRemoveFailed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackReplaceBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackNoticesBody": {
+    "placeholders": {
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackImportBadTheme": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
   }
 }

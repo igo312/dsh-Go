@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dsh-go.local/theme.schema.json",
+  "title": "dsh-Go theme package (schema 1)",
+  "description": "主题包内 theme.json 的格式定义。App 只读取这个 JSON 和可选的 preview.png，不执行包内任何代码。首版真正应用 colors.accent、colors.neutralTint、mode；colors.highlight、decorations.snow、decorations.whaleHat、dates 只解析并提示尚未应用。未知字段与未知 schema 一律拒绝。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "name", "version", "mode", "colors"],
+  "properties": {
+    "schema": {
+      "const": 1,
+      "description": "格式版本。首版只认 1；其它值会被拒绝并提示更新 App。"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,47}$",
+      "description": "主题标识：小写字母开头，只能含小写字母、数字和短横线，2–48 个字符。同一 id 再次导入视为替换。"
+    },
+    "name": {
+      "description": "显示名，最多 24 个字符。可以是单语字符串，或 { zh, en } 双语对象（zh 必填）。",
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 24
+        },
+        {
+          "type": "object",
+          "required": ["zh"],
+          "properties": {
+            "zh": { "type": "string", "minLength": 1, "maxLength": 24 },
+            "en": { "type": "string", "minLength": 1, "maxLength": 24 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "maxLength": 32,
+      "description": "主题自身版本，形如 1.0.0，最多 32 个字符。"
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "作者署名，1–64 个字符；不填则省略该字段。"
+    },
+    "description": {
+      "description": "一句话说明，最多 160 个字符。可以是单语字符串，或 { zh, en } 双语对象。",
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        {
+          "type": "object",
+          "properties": {
+            "zh": { "type": "string", "minLength": 1, "maxLength": 160 },
+            "en": { "type": "string", "minLength": 1, "maxLength": 160 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "mode": {
+      "enum": ["system", "light", "dark"],
+      "description": "明暗模式，首版生效：system 跟随系统，light / dark 固定。"
+    },
+    "colors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accent"],
+      "description": "颜色种子。这是「意图」而不是像素结果：App 仍会做对比度与低彩度校正。",
+      "properties": {
+        "accent": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "description": "强调色种子（#RRGGBB），App 据此推导整套色阶。首版生效。"
+        },
+        "neutralTint": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "description": "中性面的色相倾向（#RRGGBB），只改色相、不改明度。首版生效。"
+        },
+        "highlight": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "description": "节日高亮色（#RRGGBB），用于勋章/描边一类的点缀。首版只解析并提示，尚未应用。"
+        }
+      }
+    },
+    "decorations": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "装饰开关。首版只解析并提示，开关尚不生效。",
+      "properties": {
+        "snow": {
+          "type": "boolean",
+          "description": "轻雪背景。首版只解析并提示，尚未应用。"
+        },
+        "whaleHat": {
+          "type": "boolean",
+          "description": "给鲸鱼戴帽子。首版只解析并提示，尚未应用；需要宠物素材与逐帧锚点方案。"
+        }
+      }
+    },
+    "dates": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 2,
+      "dependentRequired": { "from": ["to"], "to": ["from"] },
+      "description": "生效日期区间（MM-DD）。首版只校验格式并提示，不会自动切换。from 晚于 to 表示跨年；from 和 to 必须成对出现，空对象不合法；02-29 允许，02-30/02-31 等日历不存在的日期由 App 校验拒绝。",
+      "properties": {
+        "from": {
+          "type": "string",
+          "minLength": 5,
+          "pattern": "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$",
+          "description": "起始日（含），格式 MM-DD。"
+        },
+        "to": {
+          "type": "string",
+          "minLength": 5,
+          "pattern": "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$",
+          "description": "结束日（含），格式 MM-DD。"
+        }
+      }
+    },
+    "preview": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?:[A-Za-z0-9._-]+/)*[A-Za-z0-9._-]+\\.png$",
+      "description": "预览图在包内的相对路径（PNG，不许绝对路径、空段、. 或 .. 段、反斜杠）。推荐直接写 preview.png；放在子目录（如 assets/preview.png）也可以。"
+    }
+  }
+}

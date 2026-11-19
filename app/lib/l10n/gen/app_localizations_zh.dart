@@ -14751,6 +14751,109 @@ class L10nZh extends L10n {
   String get pluginsLoadRemoteLogs => '请在这台主机上查看引擎日志。';
 
   @override
+  String get themePacksTitle => '主题包';
+
+  @override
+  String get themePacksFooter => '导入 .dshTheme.zip；当前版本应用配色与明暗，装饰和日期暂不生效。';
+
+  @override
+  String get themePackImport => '导入主题';
+
+  @override
+  String get themePackImportHint => '选择一个 .dshTheme.zip 主题包';
+
+  @override
+  String get themePackActive => '使用中';
+
+  @override
+  String get themePackUnavailable => '未安装';
+
+  @override
+  String get themePackMissing => '主题包已不在手机上';
+
+  @override
+  String get themePackListFailed => '读取主题包失败，点此重试';
+
+  @override
+  String themePackImported(String name) {
+    return '已导入「$name」';
+  }
+
+  @override
+  String themePackReplaced(String name) {
+    return '已替换「$name」';
+  }
+
+  @override
+  String themePackRemoved(String name) {
+    return '已删除「$name」';
+  }
+
+  @override
+  String get themePackRemoveTitle => '删除主题包？';
+
+  @override
+  String themePackRemoveBody(String name) {
+    return '「$name」会从手机删除；正在使用时回到原来的配色。';
+  }
+
+  @override
+  String themePackRemoveFailed(String name) {
+    return '没能删除「$name」';
+  }
+
+  @override
+  String get themePackReplaceTitle => '替换主题包？';
+
+  @override
+  String themePackReplaceBody(String name) {
+    return '已经导入过「$name」，替换后使用新版本。';
+  }
+
+  @override
+  String get themePackNoticesTitle => '部分效果暂未生效';
+
+  @override
+  String themePackNoticesBody(String items) {
+    return '这个主题包还要求：$items。当前版本只应用配色和明暗；继续导入会保留这些设置但暂时不显示。';
+  }
+
+  @override
+  String get themePackNoticesConfirm => '仍然导入';
+
+  @override
+  String get themePackNoticeSnow => '轻雪';
+
+  @override
+  String get themePackNoticeWhaleHat => '小鲸鱼帽子';
+
+  @override
+  String get themePackNoticeHighlight => '点缀色';
+
+  @override
+  String get themePackNoticeDates => '日期范围';
+
+  @override
+  String get themePackImportNotZip => '这不是 zip 文件';
+
+  @override
+  String get themePackImportNoTheme => 'zip 里没有 theme.json';
+
+  @override
+  String themePackImportBadTheme(String detail) {
+    return 'theme.json 有问题：$detail';
+  }
+
+  @override
+  String get themePackImportTooLarge => '这个主题包太大';
+
+  @override
+  String get themePackImportStorage => '没能保存到手机上，再试一次';
+
+  @override
+  String get themePackImportUnavailable => '这里暂时不能选择文件';
+
+  @override
   String get plugslotsSurfaceComposerTools => '加号面板';
 
   @override
@@ -17414,6 +17517,9 @@ class L10nZh extends L10n {
 
   @override
   String get searchKwQuickPanel => '左滑,快捷入口,手势,滑动,目录,自定义目录,快捷,常用入口';
+
+  @override
+  String get searchKwThemePacks => '主题包,导入主题,皮肤,主题 zip,配色包';
 
   @override
   String get selfUpdateTransport => '安装路线';

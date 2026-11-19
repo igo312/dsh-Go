@@ -371,5 +371,90 @@
         "type": "int"
       }
     }
+  },
+  "themePacksTitle": "Theme packs",
+  "themePacksFooter": "Import a .dshTheme.zip; this version applies its colors and light/dark, while decorations and dates are not applied yet.",
+  "themePackImport": "Import theme",
+  "themePackImportHint": "Choose a .dshTheme.zip theme pack",
+  "themePackActive": "In use",
+  "themePackUnavailable": "Not installed",
+  "themePackMissing": "Theme pack is no longer on this phone",
+  "themePackListFailed": "Couldn't read theme packs. Tap to retry",
+  "themePackImported": "Imported “{name}”",
+  "themePackReplaced": "Replaced “{name}”",
+  "themePackRemoved": "Removed “{name}”",
+  "themePackRemoveTitle": "Delete theme pack?",
+  "themePackRemoveBody": "“{name}” will be removed from the phone. If it is in use, the previous colors return.",
+  "themePackRemoveFailed": "Couldn't remove “{name}”",
+  "themePackReplaceTitle": "Replace theme pack?",
+  "themePackReplaceBody": "“{name}” is already imported. Replacing it uses the new version.",
+  "themePackNoticesTitle": "Some effects are not applied yet",
+  "themePackNoticesBody": "This pack also asks for: {items}. This version applies colors and light/dark only; importing keeps these settings but doesn't show them yet.",
+  "themePackNoticesConfirm": "Import anyway",
+  "themePackNoticeSnow": "snow",
+  "themePackNoticeWhaleHat": "whale hat",
+  "themePackNoticeHighlight": "highlight color",
+  "themePackNoticeDates": "date range",
+  "themePackImportNotZip": "That isn't a zip file",
+  "themePackImportNoTheme": "There's no theme.json in the zip",
+  "themePackImportBadTheme": "theme.json has a problem: {detail}",
+  "themePackImportTooLarge": "This theme pack is too big",
+  "themePackImportStorage": "Couldn't save it on the phone. Try again",
+  "themePackImportUnavailable": "Files can't be chosen here right now",
+  "@themePackImported": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackReplaced": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackRemoved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackRemoveBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackRemoveFailed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackReplaceBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackNoticesBody": {
+    "placeholders": {
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "@themePackImportBadTheme": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
   }
 }

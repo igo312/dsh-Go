@@ -14,6 +14,7 @@ import 'state/appearance_state.dart';
 import 'state/locale_state.dart';
 import 'state/star_prompt.dart' show starPromptGateProvider, starPromptProvider;
 import 'state/tile_style_state.dart';
+import 'state/theme_packs_state.dart';
 import 'ui/chat/dsh_ui/dsh_ui_model.dart' show DshUiAppAccent;
 import 'ui/common/keyboard_motion.dart';
 import 'ui/common/side_insets.dart';
@@ -164,7 +165,10 @@ class _DshAppState extends ConsumerState<DshApp> with WidgetsBindingObserver {
     final appearance = ref.watch(appearanceProvider);
     final waiting =
         !appearance.loaded ||
-        (appearance.source == AccentSource.wallpaper && ref.watch(wallpaperAccentProvider).isLoading);
+        (appearance.source == AccentSource.wallpaper && ref.watch(wallpaperAccentProvider).isLoading) ||
+        // The chosen pack's palette is not known until the library has been
+        // listed; an error there is not a reason to keep waiting.
+        (appearance.themePackId != null && ref.watch(installedThemePacksProvider).isLoading);
     final locale = _resolveLocale();
     final performance = ref.watch(performanceDefaultsProvider);
     final reduced =

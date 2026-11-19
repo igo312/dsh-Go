@@ -27206,6 +27206,180 @@ abstract class L10n {
   /// **'请在这台主机上查看引擎日志。'**
   String get pluginsLoadRemoteLogs;
 
+  /// No description provided for @themePacksTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'主题包'**
+  String get themePacksTitle;
+
+  /// No description provided for @themePacksFooter.
+  ///
+  /// In zh, this message translates to:
+  /// **'导入 .dshTheme.zip；当前版本应用配色与明暗，装饰和日期暂不生效。'**
+  String get themePacksFooter;
+
+  /// No description provided for @themePackImport.
+  ///
+  /// In zh, this message translates to:
+  /// **'导入主题'**
+  String get themePackImport;
+
+  /// No description provided for @themePackImportHint.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择一个 .dshTheme.zip 主题包'**
+  String get themePackImportHint;
+
+  /// No description provided for @themePackActive.
+  ///
+  /// In zh, this message translates to:
+  /// **'使用中'**
+  String get themePackActive;
+
+  /// No description provided for @themePackUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'未安装'**
+  String get themePackUnavailable;
+
+  /// No description provided for @themePackMissing.
+  ///
+  /// In zh, this message translates to:
+  /// **'主题包已不在手机上'**
+  String get themePackMissing;
+
+  /// No description provided for @themePackListFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'读取主题包失败，点此重试'**
+  String get themePackListFailed;
+
+  /// No description provided for @themePackImported.
+  ///
+  /// In zh, this message translates to:
+  /// **'已导入「{name}」'**
+  String themePackImported(String name);
+
+  /// No description provided for @themePackReplaced.
+  ///
+  /// In zh, this message translates to:
+  /// **'已替换「{name}」'**
+  String themePackReplaced(String name);
+
+  /// No description provided for @themePackRemoved.
+  ///
+  /// In zh, this message translates to:
+  /// **'已删除「{name}」'**
+  String themePackRemoved(String name);
+
+  /// No description provided for @themePackRemoveTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'删除主题包？'**
+  String get themePackRemoveTitle;
+
+  /// No description provided for @themePackRemoveBody.
+  ///
+  /// In zh, this message translates to:
+  /// **'「{name}」会从手机删除；正在使用时回到原来的配色。'**
+  String themePackRemoveBody(String name);
+
+  /// No description provided for @themePackRemoveFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'没能删除「{name}」'**
+  String themePackRemoveFailed(String name);
+
+  /// No description provided for @themePackReplaceTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'替换主题包？'**
+  String get themePackReplaceTitle;
+
+  /// No description provided for @themePackReplaceBody.
+  ///
+  /// In zh, this message translates to:
+  /// **'已经导入过「{name}」，替换后使用新版本。'**
+  String themePackReplaceBody(String name);
+
+  /// No description provided for @themePackNoticesTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'部分效果暂未生效'**
+  String get themePackNoticesTitle;
+
+  /// No description provided for @themePackNoticesBody.
+  ///
+  /// In zh, this message translates to:
+  /// **'这个主题包还要求：{items}。当前版本只应用配色和明暗；继续导入会保留这些设置但暂时不显示。'**
+  String themePackNoticesBody(String items);
+
+  /// No description provided for @themePackNoticesConfirm.
+  ///
+  /// In zh, this message translates to:
+  /// **'仍然导入'**
+  String get themePackNoticesConfirm;
+
+  /// No description provided for @themePackNoticeSnow.
+  ///
+  /// In zh, this message translates to:
+  /// **'轻雪'**
+  String get themePackNoticeSnow;
+
+  /// No description provided for @themePackNoticeWhaleHat.
+  ///
+  /// In zh, this message translates to:
+  /// **'小鲸鱼帽子'**
+  String get themePackNoticeWhaleHat;
+
+  /// No description provided for @themePackNoticeHighlight.
+  ///
+  /// In zh, this message translates to:
+  /// **'点缀色'**
+  String get themePackNoticeHighlight;
+
+  /// No description provided for @themePackNoticeDates.
+  ///
+  /// In zh, this message translates to:
+  /// **'日期范围'**
+  String get themePackNoticeDates;
+
+  /// No description provided for @themePackImportNotZip.
+  ///
+  /// In zh, this message translates to:
+  /// **'这不是 zip 文件'**
+  String get themePackImportNotZip;
+
+  /// No description provided for @themePackImportNoTheme.
+  ///
+  /// In zh, this message translates to:
+  /// **'zip 里没有 theme.json'**
+  String get themePackImportNoTheme;
+
+  /// No description provided for @themePackImportBadTheme.
+  ///
+  /// In zh, this message translates to:
+  /// **'theme.json 有问题：{detail}'**
+  String themePackImportBadTheme(String detail);
+
+  /// No description provided for @themePackImportTooLarge.
+  ///
+  /// In zh, this message translates to:
+  /// **'这个主题包太大'**
+  String get themePackImportTooLarge;
+
+  /// No description provided for @themePackImportStorage.
+  ///
+  /// In zh, this message translates to:
+  /// **'没能保存到手机上，再试一次'**
+  String get themePackImportStorage;
+
+  /// No description provided for @themePackImportUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'这里暂时不能选择文件'**
+  String get themePackImportUnavailable;
+
   /// No description provided for @plugslotsSurfaceComposerTools.
   ///
   /// In zh, this message translates to:
@@ -32017,6 +32191,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'左滑,快捷入口,手势,滑动,目录,自定义目录,快捷,常用入口'**
   String get searchKwQuickPanel;
+
+  /// No description provided for @searchKwThemePacks.
+  ///
+  /// In zh, this message translates to:
+  /// **'主题包,导入主题,皮肤,主题 zip,配色包'**
+  String get searchKwThemePacks;
 
   /// No description provided for @selfUpdateTransport.
   ///

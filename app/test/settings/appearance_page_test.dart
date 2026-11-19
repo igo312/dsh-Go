@@ -6,13 +6,21 @@
 //
 // The goldens show the whole page, tile styles, launcher icons and launch screen included.
 
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:archive/archive.dart';
 import 'package:dsh_app/app.dart';
 import 'package:dsh_app/state/app_icon_state.dart';
 import 'package:dsh_app/state/appearance_state.dart';
 import 'package:dsh_app/state/settings_state.dart';
 import 'package:dsh_app/state/tile_style_state.dart';
+import 'package:dsh_app/state/theme_packs_state.dart';
 import 'package:dsh_app/ui/settings/appearance/appearance_page.dart';
+import 'package:dsh_app/ui/settings/appearance/theme_pack_section.dart';
 import 'package:dsh_app/ui/settings/appearance/tile_style_picker.dart';
+import 'package:dsh_app/ui/settings/settings_widgets.dart';
 import 'package:dsh_app/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -54,18 +62,67 @@ class _Launcher extends LauncherIconChannel {
 
 const _wallpaperBlue = Color(0xFF3F6FB5);
 
+late Directory _themeRoot;
+
+/// A valid schema-1 pack whose preview the image codec can decode.
+List<int> _themePackZip() {
+  final archive = Archive()
+    ..add(
+      ArchiveFile.bytes(
+        'theme.json',
+        utf8.encode(
+          jsonEncode({
+            'schema': 1,
+            'id': 'christmas',
+            'name': {'zh': '圣诞限定', 'en': 'Christmas'},
+            'version': '1.0.0',
+            'author': 'dsh-Go',
+            'mode': 'dark',
+            'colors': {'accent': '#B4232C', 'neutralTint': '#14503C'},
+            'preview': 'preview.png',
+          }),
+        ),
+      ),
+    )
+    ..add(
+      ArchiveFile.bytes(
+        'preview.png',
+        base64Decode(
+          'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+        ),
+      ),
+    );
+  return ZipEncoder().encode(archive);
+}
+
+/// Lets the real file work (inspect, write, list) finish.
+Future<void> _settle(WidgetTester tester, bool Function() done) async {
+  for (var i = 0; i < 120 && !done(); i++) {
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
+    await tester.pump(const Duration(milliseconds: 50));
+  }
+  expect(done(), isTrue, reason: 'the expected state did not arrive');
+  await tester.pump();
+}
+
 List<Override> _overrides({Color? wallpaper, AppSettings settings = const AppSettings(loaded: true)}) => [
   settingsProvider.overrideWith(() => FakeSettings(settings)),
   dynamicColorChannelProvider.overrideWithValue(_Wallpaper(wallpaper)),
+  themePackRootProvider.overrideWithValue(() async => _themeRoot),
 ];
 
 /// The real app shell (themes follow [accentProvider]) around the page; tall
 /// enough that every group is laid out.
-Future<ProviderContainer> _pumpApp(WidgetTester tester, {Color? wallpaper}) async {
+Future<ProviderContainer> _pumpApp(WidgetTester tester, {Color? wallpaper, List<Override> extra = const []}) async {
   tester.view.devicePixelRatio = 2;
   tester.view.physicalSize = const Size(390 * 2, 1700 * 2);
   addTearDown(tester.view.reset);
-  final container = ProviderContainer(overrides: _overrides(wallpaper: wallpaper));
+  final container = ProviderContainer(
+    overrides: [
+      ..._overrides(wallpaper: wallpaper),
+      ...extra,
+    ],
+  );
   addTearDown(container.dispose);
   await tester.pumpWidget(
     UncontrolledProviderScope(
@@ -97,7 +154,11 @@ Widget _goldenApp(Widget home, Brightness brightness, AppAccent accent, List<Ove
 );
 
 void main() {
-  setUp(() => SharedPreferences.setMockInitialValues({}));
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+    _themeRoot = Directory.systemTemp.createTempSync('appearance-theme-packs');
+  });
+  tearDown(() => _themeRoot.deleteSync(recursive: true));
 
   testWidgets('a preset swatch switches the whole app and is stored', (tester) async {
     final container = await _pumpApp(tester);
@@ -291,6 +352,51 @@ void main() {
     expect(find.byType(HueSlider), findsOneWidget);
   });
 
+  testWidgets('a theme pack is imported, applied and removed from the page', (tester) async {
+    final bytes = Uint8List.fromList(_themePackZip());
+    final container = await _pumpApp(
+      tester,
+      extra: [themePackPickerProvider.overrideWithValue(() async => ThemePackPickResult.picked(bytes))],
+    );
+    expect(find.text('主题包'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('theme-pack-import')));
+    await tester.pump();
+    await _settle(tester, () => container.read(appearanceProvider).themePackId == 'christmas');
+    await _settle(
+      tester,
+      () => tester.widget<SettingsTile>(find.byKey(const ValueKey('theme-pack-import'))).onTap != null,
+    );
+
+    expect(container.read(activeThemePackProvider)?.pack.id, 'christmas');
+    final expected = AppAccent.derive(
+      const Color(0xFFB4232C),
+      neutralTint: const Color(0xFF14503C),
+      id: 'theme-christmas',
+      label: '圣诞限定',
+    );
+    expect(container.read(accentProvider).seed, expected.seed);
+    expect(find.text('圣诞限定'), findsOneWidget);
+    expect(find.text('使用中'), findsOneWidget);
+
+    // The mode tiles now write the pack's mode, never the settings' mode.
+    await tester.tap(find.bySemanticsLabel('浅色'));
+    await tester.pumpAndSettle();
+    expect(container.read(appearanceProvider).themePackMode, ThemeMode.light);
+    expect(container.read(settingsProvider).themeMode, ThemeMode.system);
+
+    await tester.tap(find.byKey(const ValueKey('theme-pack-delete-christmas')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(find.text('删除主题包？'), findsOneWidget);
+    await tester.tap(find.text('删除'));
+    await _settle(tester, () => container.read(appearanceProvider).themePackId == null);
+
+    expect(container.read(activeThemePackProvider), isNull);
+    expect(find.text('圣诞限定'), findsNothing);
+    expect(find.byKey(const ValueKey('theme-pack-import')), findsOneWidget);
+  });
+
   // ── Goldens ────────────────────────────────────────────────────────────
 
   for (final (name, accent, state) in [
@@ -307,7 +413,7 @@ void main() {
         await tester.runAsync(loadGoldenFonts);
         usePhoneSurface(tester);
         // The whole page, down to the wallpaper.
-        tester.view.physicalSize = const Size(390 * 2, 2060 * 2);
+        tester.view.physicalSize = const Size(390 * 2, 2300 * 2);
         await tester.pumpWidget(
           _goldenApp(const AppearancePage(), brightness, accent, [
             ..._overrides(wallpaper: _wallpaperBlue),
@@ -328,7 +434,7 @@ void main() {
     useEnglish();
     await tester.runAsync(loadGoldenFonts);
     usePhoneSurface(tester);
-    tester.view.physicalSize = const Size(390 * 2, 2060 * 2);
+    tester.view.physicalSize = const Size(390 * 2, 2300 * 2);
     await tester.pumpWidget(
       _goldenApp(inEnglish(const AppearancePage()), Brightness.light, AppAccent.mist, [
         ..._overrides(wallpaper: _wallpaperBlue),

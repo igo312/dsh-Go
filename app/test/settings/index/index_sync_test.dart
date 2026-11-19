@@ -73,6 +73,7 @@ const _ownTitle = {'page:account'};
 const _sections = {
   'dark-mode',
   'accent',
+  'theme-packs',
   'tile-style',
   'app-icon',
   'launch-screen',
